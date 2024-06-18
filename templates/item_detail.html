@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="navbar">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">商品一覧</span>
+    </div>
+</nav>
+
+<div class="bg-body-tertiary p-3 p-sm-5 mb-4">
+    <div class="container">
+        <div class items style = "display:flex ; justify-content:center">
+            <div class="item">
+                <h1>
+                    {% if month == "01"%}
+                        <a href="/{{service_detail.service_name}}/{{year|int-1}}-12/item_detail">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    {% elif month|int < 11 %} 
+                        <a href="/{{service_detail.service_name}}/{{year}}-0{{month|int-1}}/item_detail">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    {% else %}
+                        <a href="/{{service_detail.service_name}}/{{year}}-{{month|int-1}}/item_detail">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                    {% endif %}
+                </h1>
+            </div>
+            <div class="item">
+                <h1>
+                    {{year}}年{{month}}月
+                </h1>
+            </div>
+            <div class="item">
+                <h1>
+                    {% if month == "12"%}
+                        <a href="/{{service_detail.service_name}}/{{year|int+1}}-01/item_detail">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    {% elif month|int < 9 %}
+                        <a href="/{{service_detail.service_name}}/{{year}}-0{{month|int+1}}/item_detail">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    {% else %}
+                        <a href="/{{service_detail.service_name}}/{{year}}-{{month|int+1}}/item_detail">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+        <p>{{service_detail.current_usage}}円 / {{service_detail.upper_limit}}円</p>
+        {% if service_detail.upper_limit != 0 %}
+            {% if service_detail.current_usage / service_detail.upper_limit < 0.8 %} <div class="progress"style="height: 30px;">
+                <div class="progress-bar bg-success" style={{service_detail.text_style_usage_ratio}} role="progressbar">
+                    {{service_detail.usage_ratio_with_percent}}</div>
+                </div>
+            {% elif 0.8 <= service_detail.current_usage / service_detail.upper_limit < 1 %} 
+                <div class="progress" style="height: 30px;">
+                    <div class="progress-bar bg-warning text-dark" style={{service_detail.text_style_usage_ratio}} role="progressbar">
+                        {{service_detail.usage_ratio_with_percent}}
+                    </div>
+                </div>
+            {% else %}
+                <div class="progress" style="height: 30px;">
+                    <div class="progress-bar bg-danger" style={{service_detail.text_style_usage_ratio}} role="progressbar">
+                         {{service_detail.usage_ratio_with_percent}}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">購入日</th>
+                <th scope="col">商品名</th>
+                <th scope="col">値段</th>
+                <th scope="col">購入者</th>
+                <th scope="col">サービス名</th>
+                <th scope="col">内容変更</th>
+                <th scope="col">削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in item_detail_list %}
+            <tr>
+                <td>{{item.purchase_date}}</td>
+                <td>{{item.item_name}}</td>
+                <td>{{item.item_price}}</td>
+                <td>{{item.item_attribute}}</td>
+                <td>{{item.service_name}}</td>
+                <td>
+                    <!--商品の編集-->
+                    <a href="/{{item.service_name}}/item_edit/{{item.item_id}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <!--商品の削除-->
+                    <a href="/{{item.service_name}}/item_delete/{{item.item_id}}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

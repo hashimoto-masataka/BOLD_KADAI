@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="navbar">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">固定費一覧</span>
+    </div>
+</nav>
+
+<div class="container">
+    <table class="table table-striped" >
+        <thead>
+            <!--表示する内容-->
+            <tr>
+                <th scope="col">固定費名</th>
+                <th scope="col">予算</th>
+                <th scope="col">予算変更</th>
+                <th scope="col">削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--サービスごとに内容を表示-->
+            {% for service in service_detail_list %}
+            <tr>
+                <a href="/{{service.service_name}}/service_edit" role="button"></a>
+                <td>{{service.service_name}}</td>
+                <td>{{service.upper_limit}}</td>
+                <!--編集のアイコン-->
+                <td><a href="/{{service.service_name}}/service_edit" role="button">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+                <!--削除のアイコン-->
+                <td><a href="/{{service.service_name}}/service_delete" role="button">
+                    <i class="fa-solid fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div class="container">
+    <a href="/service_register">
+        <button type="button" class="btn btn-primary">
+            新規登録
+        </button>
+    </a>
+</div>
+{% endblock %}

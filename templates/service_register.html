@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="navbar">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">固定費登録</span>
+    </div>
+</nav>
+
+{% if error_message != "" %}
+<!--不正な入力があったらnavbarの下に赤字で表示する-->
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <div>
+        {{error_message}}
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <form method="POST">
+        <!--入力フォームの部分-->
+        <div class="mb-3">
+            <label for="service_name" class="form-label">固定費</label>
+            <input type="text" class="form-control" name="service_name" id="service_name" aria-describedby="emailHelp"
+                placeholder="例：食費">
+        </div>
+        <div class="mb-3">
+            <label for="upper_limit" class="form-label">使用上限金額</label>
+            <input type="number" class="form-control" name="upper_limit" id="upper_limit" placeholder="例：5000" min="1">
+        </div>
+
+        <!--登録ボタン-->
+        <button type="submit" class="btn btn-primary">登録</button>
+    </form>
+</div>
+{% endblock %}

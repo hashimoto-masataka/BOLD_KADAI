@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<nav class="navbar">
+    <div class="container">
+        <span class="navbar-brand mb-0 h1">出費登録</span>
+    </div>
+</nav>
+
+{% if error_message != "" %}
+<!--エラーメッセージ赤字で表示する-->
+<div class="alert alert-danger d-flex align-items-center" role="alert">
+    <div>
+        {{error_message}}
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <form method="POST">
+        <!--入力フォームの部分-->
+        <div class="mb-3">
+            <label for="purchase_date" class="form-label">購入した日付</label>
+            <input type="date" class="form-control" name="purchase_date" id="purchase_date">
+        </div>
+        <div class="form-group mb-3">
+            <label for="service_name" class="form-label">カテゴリ</label>
+            <div class="input-group">
+                <select class="form-control" name="service_name" id="service_name">
+                    {% for service in service_detail_list %}
+                    <option>{{service.service_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="item_name" class="form-label">商品名</label>
+            <input type="text" class="form-control" name="item_name" id="item_name" aria-describedby="emailHelp"
+                placeholder="例：食費">
+        </div>
+        <div class="mb-3">
+            <label for="item_price" class="form-label">値段</label>
+            <input type="number" class="form-control" name="item_price" id="item_price" placeholder="例：1000" min="1">
+        </div>
+        <div class="form-group mb-3">
+            <label for="item_attribute" class="form-label">購入者</label>
+            <div class="input-group">
+                <select class="form-control" name="item_attribute" id="item_attribute">
+                    {% for item_attribute in item_attribute_list %}
+                    <option>{{item_attribute}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!--登録ボタン-->
+        <button type="submit" class="btn btn-primary">登録</button>
+    </form>
+</div>
+{% endblock %}
